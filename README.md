@@ -86,11 +86,34 @@ This is a but tough because you need to learn how DeepLearning4J work. However, 
 To learn how RNN please look the follwing code example:
 [RNN Example](http://github.com/eclipse/deeplearning4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/recurrent/basic/BasicRNNExample.java)
 [Another RNN Example](https://github.com/khaledkucse/methodRec/blob/master/src/main/java/Classification.java)
+First try by yourself. If you fail then come to me. I will not help you if you dont anything.
+
+### What to hand in
+For each of the task provide follwoing three file:
+1. Zip file of the full project
+2. <your nsid>_codeparser.log
+3. <your nsid>_keras/deeplearning4j_rnn/lstm.log
+
+Lastly one file name as README.txt file that will have the followings:
+1. Status of all three task
+2. How to run each of your project(s): requirements, steps to run
+3. Changes in python script for competing task 2. 
+4. Overall what you learn from the assignment and your assesment of the assignement out of 10 in three category: 1. Usability(10 as in very useful, 0 as in not required for future), 2. Complexity(10 as in very hard, 0 as in very easy), 3. New learning(10 as in everythin were new, 0 as in nothing learned)
+5. Any additional comment.
+Your assesment will not be considered for marking and will be helpful for future.
 
 
+### Marking
+1. Dataset Creation: 5 (Considered as complete if and only if the <your nsid>_codeparser.log file is provided that have all log statement)
+2. Task 1: 10 (Considered as complete if and only if <your nsid>_keras_rnn.log file and the zip file of the project are provided)
+3. Task 2: 20 (Considered as complete if and only if <your nsid>_keras_lstm.log file, the zip file of the project and the README,txt file are provided. For task 2, the main important line in README.txt is "4. Changes in python script for competing task 2.")
+4. Task 3: 40 (Considered as complete if and only if <your nsid>_deeplearning4j_rnn/lstm.log file and the zip file of the project are provided.")
+5. README.txt: 5 (Considered as complete if and only if  descriptions of first two points are provided and TASK 1 is complete. Even if you write you cant finish Task 2 or 3, you will get full marks for README.txt file.)
+
+
+Total Marks: 80
 
 ### Issues
-First try by yourself. If you fail then come to me. I will not help you if you dont anything.
 
 If you have any problem with the code provided in  the repositroy. Please create an issue. I will try to solve it as soon as possible
 
