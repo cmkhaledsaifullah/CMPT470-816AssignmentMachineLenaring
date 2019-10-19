@@ -87,7 +87,12 @@ To learn how RNN please look the follwing code example:
 [RNN Example](http://github.com/eclipse/deeplearning4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/recurrent/basic/BasicRNNExample.java)
 [Another RNN Example](https://github.com/khaledkucse/methodRec/blob/master/src/main/java/Classification.java)
 
+
+
+### Issues
 First try by yourself. If you fail then come to me. I will not help you if you dont anything.
+
+If you have any problem with the code provided in  the repositroy. Please create an issue. I will try to solve it as soon as possible
 
 
 
