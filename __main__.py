@@ -74,6 +74,7 @@ df_train = collectDataset(train_files)
 df_test = collectDataset(test_files)
 logger.info("Number of Training data: %d", len(df_train))
 logger.info("Number of Testing data: %d", len(df_test))
+logger.info('Data Colelction Done')
 
 #----------------------------------------------------------------------------------------------------------------------
 # 2. Data Preprocessing
@@ -123,7 +124,7 @@ model.add(layers.Dense(units=label_vocab_size, activation='softmax'))
 model.summary()
 # compile the model
 model.compile(optimizer=config.optimizer, loss=config.loss_function, metrics=config.metrics)
-
+logger.info('Neural Network Configuration Done')
 #----------------------------------------------------------------------------------------------------------------------
 # 4. Training
 #----------------------------------------------------------------------------------------------------------------------
@@ -131,7 +132,7 @@ print('4. Training....')
 # fit the model
 logger.info("Training is starting......")
 model.fit(x=train_contexts_padded, y=train_label_encoded, batch_size = config.batch_size, epochs=config.epochs)
-
+logger.info('Training Done')
 #----------------------------------------------------------------------------------------------------------------------
 # 5. Testing
 #----------------------------------------------------------------------------------------------------------------------
@@ -155,3 +156,4 @@ logger.info("Testing is starting......")
 loss, accuracy = model.evaluate(x=test_contexts_encoded, y=test_label_encoded,verbose=0)
 
 logger.info('Accuracy: %f',(accuracy*100))
+logger.info('Testing Done')
