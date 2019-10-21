@@ -22,6 +22,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <nd4j.backend>nd4j-native-platform</nd4j.backend>
+        <nd4j.version>0.9.1</nd4j.version>
+        <dl4j.version>0.9.1</dl4j.version>
+        <datavec.version>0.9.1</datavec.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>log4j</groupId>
@@ -68,6 +75,28 @@
             <artifactId>org.eclipse.jdt.annotation</artifactId>
             <version>1.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-core</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>${nd4j.backend}</artifactId>
+            <version>${nd4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datavec</groupId>
+            <artifactId>datavec-api</artifactId>
+            <version>${datavec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-nn</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
+
+
     </dependencies>
 
 

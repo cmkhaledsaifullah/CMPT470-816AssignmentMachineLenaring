@@ -28,6 +28,21 @@ public class Config {
 
 
 
+    //Deep Learning related parameter
+    public static final int LSTM_LAYER_SIZE = 128;					                        //Number of units in each GravesLSTM layer
+    public static final int BATCH_SIZE = 32;						                        //Size of mini batch to use when  training
+    public static final int NO_EPOCHES = 10;							                    //Total number of training epoch
+    public static final int MAX_LENGTH_INPUT = 10;							                //Maximum length in input
+    public static final String DL4J_LOG_PATH = ROOT_PATH+"cms500_deeplearning4j_lstm.log";  //Log file path
+
+
+
+
+
+
+
+
+
     public static final boolean isAllowedPackage(String packagename) {
         if(packagename == null)
                 return false;

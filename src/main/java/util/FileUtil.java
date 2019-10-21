@@ -30,10 +30,10 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 public class FileUtil {
-	public static String getFileContent(String fp) {
+	public static String getFileContent(String filePath) {
 		String strResult = "";
 		try {
-			strResult = new String(Files.readAllBytes(Paths.get(fp)));
+			strResult = new String(Files.readAllBytes(Paths.get(filePath)));
 		} catch (Exception ex) {
 			// ex.printStackTrace();
 		}
@@ -41,10 +41,10 @@ public class FileUtil {
 
 	}
 
-	public static ArrayList<String> getFileStringArray(String fp) {
+	public static ArrayList<String> getFileStringArray(String filePath) {
 		ArrayList<String> lstResults = new ArrayList<String>();
 		try {
-			try (BufferedReader br = new BufferedReader(new FileReader(fp))) {
+			try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 				String line;
 				while ((line = br.readLine()) != null) {
 					// process the line.
@@ -61,11 +61,11 @@ public class FileUtil {
 
 	}
 
-	public static int countNumberOfLines(String fp) {
+	public static int countNumberOfLines(String filePath) {
 		int count = 0;
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader(fp));
+			br = new BufferedReader(new FileReader(filePath));
 			String line;
 			while ((line = br.readLine()) != null) {
 				if (!line.trim().isEmpty())
@@ -83,10 +83,10 @@ public class FileUtil {
 		}
 	}
 
-	public static void appendToFile(String fp, String line) {
+	public static void appendToFile(String filePath, String line) {
 		BufferedWriter bf = null;
 		try {
-			bf = new BufferedWriter(new FileWriter(new File(fp), true), 32768);
+			bf = new BufferedWriter(new FileWriter(new File(filePath), true), 32768);
 			bf.write(line);
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -100,10 +100,10 @@ public class FileUtil {
 		}
 	}
 
-	public static void appendLineToFile(String fp, String line) {
+	public static void appendLineToFile(String filePath, String line) {
 		BufferedWriter bf = null;
 		try {
-			bf = new BufferedWriter(new FileWriter(new File(fp), true));
+			bf = new BufferedWriter(new FileWriter(new File(filePath), true));
 			bf.write(line + "\n");
 
 		} catch (IOException ex) {
@@ -118,9 +118,9 @@ public class FileUtil {
 		}
 	}
 
-	public static void deleteFile(String fp) {
+	public static void deleteFile(String filePath) {
 		try {
-			File f = new File(fp);
+			File f = new File(filePath);
 			if (f.exists()) {
 				f.delete();
 			}
@@ -130,10 +130,10 @@ public class FileUtil {
 		}
 	}
 
-	public static void writeToFile(String path, String content) {
+	public static void writeToFile(String fielPath, String content) {
 		BufferedWriter bf = null;
 		try {
-			bf = new BufferedWriter(new FileWriter(new File(path), false));
+			bf = new BufferedWriter(new FileWriter(new File(fielPath), false));
 			bf.write(content);
 
 		} catch (IOException ex) {
@@ -148,11 +148,11 @@ public class FileUtil {
 		}
 	}
 
-	public static void writeToFile(String path, Collection<String> lines) {
+	public static void writeToFile(String filePath, Collection<String> lines) {
 		StringBuilder sb = new StringBuilder();
 		for (String l : lines)
 			sb.append(l + "\n");
-		writeToFile(path, sb.toString());
+		writeToFile(filePath, sb.toString());
 	}
 
 
@@ -193,9 +193,9 @@ public class FileUtil {
 		return files;
 	}
 
-	public static void writeObjectToFile(Object object, String objectFile, boolean append) {
+	public static void writeObjectToFile(Object object, String objectFilePath, boolean append) {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(objectFile, append)));
+			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(objectFilePath, append)));
 			out.writeObject(object);
 			out.flush();
 			out.close();
@@ -206,9 +206,9 @@ public class FileUtil {
 		}
 	}
 	
-	public static Object readObjectFromFile(String objectFile) {
+	public static Object readObjectFromFile(String objectFilePath) {
 		try {
-			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(objectFile)));
+			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(objectFilePath)));
 			Object object = in.readObject();
 			in.close();
 			return object;

@@ -84,8 +84,13 @@ Hint: You dont need to install any new library. Just a very small change will do
 This is a but tough because you need to learn how DeepLearning4J work. However, the working mechanism of kepler and deeplearning4j is almost same. But you need do data collecttiona data data preprocessing in java too.
 
 To learn how RNN please look the follwing code example:
+
 [RNN Example](http://github.com/eclipse/deeplearning4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/recurrent/basic/BasicRNNExample.java)
+
+
 [Another RNN Example](https://github.com/khaledkucse/methodRec/blob/master/src/main/java/Classification.java)
+
+
 First try by yourself. If you fail then come to me. I will not help you if you dont anything.
 
 ### What to hand in
@@ -104,10 +109,10 @@ Your assesment will not be considered for marking and will be helpful for future
 
 
 ### Marking
-1. Dataset Creation: 5 (Considered as complete if and only if the <your nsid>_codeparser.log file is provided that have all log statement)
-2. Task 1: 10 (Considered as complete if and only if <your nsid>_keras_rnn.log file and the zip file of the project are provided)
-3. Task 2: 20 (Considered as complete if and only if <your nsid>_keras_lstm.log file, the zip file of the project and the README,txt file are provided. For task 2, the main important line in README.txt is "4. Changes in python script for competing task 2.")
-4. Task 3: 40 (Considered as complete if and only if <your nsid>_deeplearning4j_rnn/lstm.log file and the zip file of the project are provided.")
+1. Dataset Creation: 5 (Considered as complete if and only if the your nsid_codeparser.log file is provided that have all log statement)
+2. Task 1: 10 (Considered as complete if and only if your nsid_keras_rnn.log file and the zip file of the project are provided)
+3. Task 2: 20 (Considered as complete if and only if your nsid_keras_lstm.log file, the zip file of the project and the README,txt file are provided. For task 2, the main important line in README.txt is "4. Changes in python script for competing task 2.")
+4. Task 3: 40 (Considered as complete if and only if your nsid_deeplearning4j_rnn/lstm.log file and the zip file of the project are provided.")
 5. README.txt: 5 (Considered as complete if and only if  descriptions of first two points are provided and TASK 1 is complete. Even if you write you cant finish Task 2 or 3, you will get full marks for README.txt file.)
 
 

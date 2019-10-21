@@ -22,7 +22,7 @@ def init():
 
     result_file_path = root_folder + 'data/results.csv'
 
-    log_file_path = root_folder+'cms500_keras_rnn.log'
+    log_file_path = root_folder+'cms500_keras_lstm.log'
 
 
     #Data Preprocessing:
