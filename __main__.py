@@ -117,7 +117,7 @@ print('3. Neural Network Configuration....')
 logger.info("Configuring Neural network model")
 model = keras.Sequential()
 model.add(layers.Embedding(input_dim=context_vocab_size, output_dim=64, input_length=config.max_input_length))
-model.add(layers.LSTM(units=128))
+model.add(layers.SimpleRNN(units=128))
 model.add(layers.Dense(units=label_vocab_size, activation='softmax'))
 # summarize the model
 model.summary()
