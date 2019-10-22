@@ -81,7 +81,7 @@ Understand the code written in the __main__.py file. Find where you need to chan
 Hint: You dont need to install any new library. Just a very small change will do the work
 
 ### TASK 3
-This is a but tough because you need to learn how DeepLearning4J work. However, the working mechanism of kepler and deeplearning4j is almost same. But you need do data collecttiona data data preprocessing in java too.
+This is a little bit tough because you need to learn how DeepLearning4J work. However, the working mechanism of kepler and deeplearning4j is almost same. But you need do data collecttiona data data preprocessing in java too.
 
 To learn how RNN please look the follwing code example:
 
