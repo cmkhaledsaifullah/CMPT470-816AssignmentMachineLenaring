@@ -37,7 +37,7 @@ This Repository contains the code for the machine learning of Task 1. To run the
    or
    python3 __main__.py
    ```
-   After the successful run, you will find your_nsid_keras_rnn.log file in the project directory where all log information are stored along with the accuracy of the trained rnn model.
+   After the successful run, you will find **your_nsid_keras_rnn.log** file in the project directory where all log information are stored along with the accuracy of the trained rnn model.
 
 ### Issues
 

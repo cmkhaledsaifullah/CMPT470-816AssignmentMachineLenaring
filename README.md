@@ -10,9 +10,75 @@ Here I use the source code as a feature and feed them into the neural network.
 By this assignment, you will solve the following Software engineering problem:
 
 ```
-Method Call Recommendation using Reccurent Neural Network(RNN) and Long Short Term Memory(LSTM) Based neural network.
+Method Call Recommendation using Reccurent Neural Network(RNN) and 
+Long Short Term Memory(LSTM) Based neural network.
 ```
+Let me give an example of the problem. Consider the follwoing code snippet:
 
+```
+1. public String toString(){
+2.   int baseLength = base.length();
+3.   StringBuilder builder = new StringBuilder(baseLength);
+4.   for (int i = baseLength - 1; i >= 0; --i){
+5.       builder.append(base.charAt(i));
+6.   }
+7.   return builder.toString();
+8. }
+```
+The `toString()` method tries to create a string of a `CharSequence` object `base` taking each character at a time using a `for` loop and appending the character in a `StringBuilder` object, `builder`.
+Consider, the user is writing the line 7 where (s)he wrote `return builder.` and expecting to have a method call recommendation. We like to recommend a method name such as `toString` to the user.
+Therefore our `label` for the problem is a method name. So what would be the feature? The feature is the previous source code.
+In different researches, the last four lines of code are found very important. Therefore, we collect all code tokens of the last four lines. 
+In our example, last four lines of `return builder.` are:
+```
+3.   StringBuilder builder = new StringBuilder(baseLength);
+4.   for (int i = baseLength - 1; i >= 0; --i){
+5.       builder.append(base.charAt(i));
+6.   }
+``` 
+One way to collect the code tokens is using regular expression. However, in that case tokens such as `i`, `baseLength` will be collected. If you look at the code, they are identifier and in our dataset, such identifier can have different name. 
+For example, a developer can write `baseLength`, `baseLen`, `baseSize` and so on as the name of the identifier and if we try to train neural network keeping these names, we might end up having a million of the distinct word in our training vocabulary.
+So why not we replace these tokens by their data type? To do that, we need to parse the code and we can do that using [Eclipse JDT Core](https://www.eclipse.org/jdt/core/). 
+The library can create Abstract Syntax Tree(AST) from java code. Each node will contain either operand such as `i`, `baseLength` or an operation such as `=`, `for` and so on. 
+Each node will have multiple information embedded in it. We will extract the type information of the operand nodes and replace the operand nodes values by the type information.
+Then we will visit the AST from line 7 to line 3 to create the feature of our task. Since we have the code tokens as a feature, let us call them context.
+Therefore the context for the example is:
+```
+StringBuiler, return, }, int, charAt, CharSequence, append,StringBuilder,
+{, --, >=, -, int, =, int, for, int, StringBuilder, new, =, StringBuilder 
+```  
+
+The above process is done by the Java code in this repository. It takes each java file of a subject system, parses them to AST, finds each method call, collects all tokens in the previous four lines for each method call, and forms context from those tokens and label from the method call name.
+
+In [data/repository](data/repository) folder, you will see one subject system, __JEdit__. Our java program will collect the dataset for machine learning from this subject system. If you like to play with more, just put more subject system in the [repository](data/repository) folder.
+
+After the successful run of the java code, you will see the dataset at [data/dataset](data/dataset) folder.
+
+Now you have a dataset, you need to do some machine learning task which includes data collection, preprocessing, machine learning configuration, training, and testing.
+
+In [scripts](scripts) folder you will find the python scripts for a machine learning algorithm. It collects dataset, splits train and test files, converts/encodes both the context and label into the numerical vectors, configure the machine learning algorithm, feed the training data to create a model and test the model.
+
+While doing so, we need to create a vocabulary class to store all the distinct tokens from context and label. 
+
+It is a multi-class classification task which means the number of class/ distinct labels in more than two. 
+So how many classes do we have? The answer is simple, the length of the label vocabulary. Therefore while testing the algorithm gives the probability value for each class and the class having the highest probability is chosen as the predicted label.
+
+In the machine learning code, you will notice, we do encoding and padding. What are they?
+
+Since the neural network does not accept string value so we need to encode the context and value. We create the vocabularies for context and label. Let us consider the vocabularies look like:
+```
+context_vocabulary = {for : 1, int : 2, String : 3, return : 4, ......}
+lable_vocabulary = {toString : 1, append : 2, .......}
+```
+In the vocabulary, each token is associated with an id. For example the id of `for` is 1, `int` is 2 in context vocabulary.
+Let us have a context such as `{String, int, return}` and the label as `{append}`. We encode the context and label based on the id in the vocabularies.
+Therefore encoded context will be `{3,2,4}` and encoded label as `{2}`. One more problem is, the context can be of any size whereas we need a fixed size of the input to the neural network.
+So we select a maximum length of input and cut off the long context or pad short one. For example, we choose the length should be 5.
+Therefore, the padded version of the encoding context should look like `{3,2,4,0,0}` where 0 is chosen as the padded token.
+Now, we feed the neural network with the padded context and we are expecting that the network should give the highest probability score in the second node of the output layer.
+
+Lastly, in the vocabulary, we save the frequency of each token. Its because in the real world the vocabulary can be huge. So we need to cut off some words to maintain good accuracy.
+One simple and most accepted way is to remove the words from the vocabulary that appear less than a threshold value. Now if any context or label has one of those removed token, we put the id of `UNK` or Unknown token in the encoded version.
 
 There are three parts of this assignment:
 
@@ -49,7 +115,7 @@ A step by step instruction is given in the following
     ```
     Put your NSID in the logfile name. Otherwise, you will not get any marks.
 
-* Step 3: If any .log file exit, delete them.
+* Step 3: If any .log file exists, delete it.
 
 * Step 4: 
     ```
