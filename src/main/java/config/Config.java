@@ -14,7 +14,6 @@ public class Config {
     public static final String REPOSITORY_PATH = ROOT_PATH+"data/repository/";
     public static final String DATSET_PATH = ROOT_PATH+"data/dataset/";
     public static final String LOG_PATH = ROOT_PATH+"cms500_codeparser.log";
-    public static final int THREAD_POOL_SIZE = 8;
 
 
     private static final String[] PACKAGE_NAME ={"java"};

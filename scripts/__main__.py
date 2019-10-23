@@ -39,7 +39,7 @@ def collectDataset(files):
     data = pd.concat(data)
     return data
 
-def encodeSentences(sentences,lang,isLabel):
+def encodeSentences(sentences,lang):
     '''
     The method encodes each sentence in the sentences list into a integer list based on the language.
     :param sentences: A list of string
@@ -55,10 +55,7 @@ def encodeSentences(sentences,lang,isLabel):
                 encoded_each_sentence.append(lang.word2index[word])
             else:
                 encoded_each_sentence.append(config.UNK_token)
-        if isLabel:
-            encoded_sentences.extend(encoded_each_sentence)
-        else:
-            encoded_sentences.append(encoded_each_sentence)
+        encoded_sentences.append(encoded_each_sentence)
     return encoded_sentences
 
 
@@ -104,10 +101,11 @@ logger.info("Number of word in output vocabulary: %d", output_vocab.n_words)
 context_vocab_size = input_vocab.n_words
 label_vocab_size = output_vocab.n_words
 logger.info("Context and label for training in encoded....")
-train_contexts_encoded = encodeSentences(contexts,input_vocab,0)
-train_label_encoded = encodeSentences(labels,output_vocab,1)
+train_contexts_encoded = encodeSentences(contexts,input_vocab)
+train_label_encoded = encodeSentences(labels,output_vocab)
 logger.info("Context for training in padded....")
 train_contexts_padded = pad_sequences(train_contexts_encoded, maxlen=config.max_input_length, padding='post',value=config.PADDED_Token)
+train_label_padded = pad_sequences(train_label_encoded, maxlen=1, padding='post',value=config.PADDED_Token)
 logger.info("Data Preprocessing Done...")
 
 #----------------------------------------------------------------------------------------------------------------------
@@ -131,7 +129,7 @@ logger.info('Neural Network Configuration Done')
 print('4. Training....')
 # fit the model
 logger.info("Training is starting......")
-model.fit(x=train_contexts_padded, y=train_label_encoded, batch_size = config.batch_size, epochs=config.epochs)
+model.fit(x=train_contexts_padded, y=train_label_padded, batch_size = config.batch_size, epochs=config.epochs)
 logger.info('Training Done')
 #----------------------------------------------------------------------------------------------------------------------
 # 5. Testing
@@ -145,15 +143,15 @@ for index, row in df_test.iterrows():
     labels.append(row['Label'])
 
 logger.info("Context and label for testing in encoded....")
-test_contexts_encoded = encodeSentences(contexts,input_vocab,0)
-test_label_encoded = encodeSentences(labels,output_vocab,1)
+test_contexts_encoded = encodeSentences(contexts,input_vocab)
+test_label_encoded = encodeSentences(labels,output_vocab)
 logger.info("Context for testing in padded....")
-test_contexts_encoded = pad_sequences(test_contexts_encoded, maxlen=config.max_input_length, padding='post',value=config.PADDED_Token)
-
+test_contexts_padded = pad_sequences(test_contexts_encoded, maxlen=config.max_input_length, padding='post',value=config.PADDED_Token)
+test_label_padded = pad_sequences(test_label_encoded, maxlen=1, padding='post',value=config.PADDED_Token)
 
 # evaluate the model
 logger.info("Testing is starting......")
-loss, accuracy = model.evaluate(x=test_contexts_encoded, y=test_label_encoded,verbose=0)
+loss, accuracy = model.evaluate(x=test_contexts_padded, y=test_label_padded,verbose=0)
 
 logger.info('Accuracy: %f',(accuracy*100))
 logger.info('Testing Done')

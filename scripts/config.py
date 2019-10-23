@@ -6,7 +6,6 @@ def init():
         PADDED_Token, \
         UNK_token,\
         dataset_head, \
-        result_head,\
         min_frequency,\
         max_input_length,\
         loss_function,\
@@ -16,13 +15,13 @@ def init():
         epochs
 
     # All File Path
-    root_folder = './'
+    root_folder = '../'
 
     full_dataset_folder_path = root_folder + 'data/dataset/'
 
     result_file_path = root_folder + 'data/results.csv'
 
-    log_file_path = root_folder+'cms500_keras_lstm.log'
+    log_file_path = root_folder+'cms500_keras_rnn.log'
 
 
     #Data Preprocessing:
@@ -46,10 +45,3 @@ def init():
                  'RecieverVaribale',
                  'Context',
                  'Label']
-
-    result_head = 'FilePath,' \
-                  'LineNumber,' \
-                  'RecieverVaribale,' \
-                  'Context,' \
-                  'Label,'\
-                  'predictedLabel'

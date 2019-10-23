@@ -8,10 +8,8 @@ package extraction;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.*;
@@ -21,14 +19,11 @@ import org.apache.log4j.LogManager;
 
 
 import config.Config;
-
-import static config.Config.THREAD_POOL_SIZE;
 import static util.ParseUtil.getFilteredRecursiveFiles;
 import static util.ParseUtil.reformatFQN;
 import model.APIMethod;
 import model.CompileUnit;
 import util.FileUtil;
-import util.NotifyingBlockingThreadPoolExecutor;
 
 public class MethodCallCollector{
     private static String[] jarPath,sourceFilePath; // variable for storing the paths of jar file and source file
@@ -36,16 +31,6 @@ public class MethodCallCollector{
     private static final Logger logger = LogManager.getLogger(MethodCallCollector.class.getName()); // logger variable for loggin in the file
 
     private static final DecimalFormat df = new DecimalFormat(); // Decimal formet variable for formating decimal into 2 digits
-
-    private static final Callable<Boolean> blockingTimeoutCallback = new Callable<Boolean>() {
-        @Override
-        public Boolean call() throws Exception {
-            return true; // keep waiting
-        }
-    };  //Call back varaible if the threads fall in the deadlock sitatuion
-    private static NotifyingBlockingThreadPoolExecutor pool = new NotifyingBlockingThreadPoolExecutor(THREAD_POOL_SIZE,THREAD_POOL_SIZE, 15, TimeUnit.SECONDS, 200, TimeUnit.MILLISECONDS, blockingTimeoutCallback);
-
-
 
     /**
      * Used to define simpler print function
@@ -384,33 +369,25 @@ public class MethodCallCollector{
         System.setProperty("logfilename",Config.LOG_PATH);
         PropertyConfigurator.configure("src/log4j.properties");
 
+        List<APIMethod> apiMethods = MethodCallCollector.extractfromSource(new File(Config.REPOSITORY_PATH));
+        logger.info("Total Number of API method invocation found: " + apiMethods.size());
+        Collections.shuffle(apiMethods);
 
-        pool.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    List<APIMethod> apiMethods = MethodCallCollector.extractfromSource(new File(Config.REPOSITORY_PATH));
-                    logger.info("Total Number of API method invocation found: " + apiMethods.size());
-                    Collections.shuffle(apiMethods);
+        for(int i=1;i<=10;i++)
+            FileUtil.writeToFile(Config.DATSET_PATH+"fold-"+i+".csv",Config.DATASET_HEAD);
 
-                    for(int i=1;i<=10;i++)
-                        FileUtil.writeToFile(Config.DATSET_PATH+"fold-"+i+".csv",Config.DATASET_HEAD);
+        logger.info("Dividing the dataset into 10 folds and writting in " + Config.DATSET_PATH);
+        int fileNumber = 1;
+        for(APIMethod apiMethod:apiMethods) {
+            String line = apiMethod.getFileName()+","+apiMethod.getLineNumber()+","+apiMethod.getFQN()+","+apiMethod.getContextInString()+","+apiMethod.getName();
+            FileUtil.appendLineToFile(Config.DATSET_PATH+"fold-"+fileNumber+".csv",line);
 
-                    logger.info("Dividing the dataset into 10 folds and writting in " + Config.DATSET_PATH);
-                    int fileNumber = 1;
-                    for(APIMethod apiMethod:apiMethods) {
-                        String line = apiMethod.getFileName()+","+apiMethod.getLineNumber()+","+apiMethod.getFQN()+","+apiMethod.getContextInString()+","+apiMethod.getName();
-                        FileUtil.appendLineToFile(Config.DATSET_PATH+"fold-"+fileNumber+".csv",line);
+            if(fileNumber == 10)
+                fileNumber  = 1;
+            else
+                fileNumber++;
+        }
 
-                        if(fileNumber == 10)
-                            fileNumber  = 1;
-                        else
-                            fileNumber++;
-                    }
-
-                } catch (Exception ignored){}
-            }
-        });
 
 
     }
